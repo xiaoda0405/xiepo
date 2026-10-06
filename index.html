@@ -1,0 +1,2154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="bingbot" content="noindex, nofollow">
+<meta name="Twitterbot" content="noindex, nofollow">
+<meta name="GPTBot" content="noindex, nofollow">
+<meta name="ChatGPT-User" content="noindex, nofollow">
+<meta name="Google-Extended" content="noindex, nofollow">
+<meta name="CCBot" content="noindex, nofollow">
+<meta name="anthropic-ai" content="noindex, nofollow">
+<meta name="Claude-Web" content="noindex, nofollow">
+<meta name="GoogleOther" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<title>胁po体验计划</title>
+<style>
+  :root {
+    --bg: #10070d;
+    --card: #1b0b14;
+    --card-border: rgba(244, 63, 94, 0.35);
+    --text: #ffe4e8;
+    --muted: #c9aeb8;
+    --accent: #f43f7a;
+    --accent2: #fb7185;
+    --goddess: #fecdd3;
+    --choice: #24101b;
+    --choice-hover: #43172a;
+    --glow: 0 0 28px rgba(244, 63, 94, 0.3);
+    --warn: #fb7185;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(244, 63, 94, 0.16) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 90%, rgba(192, 38, 90, 0.12) 0%, transparent 50%);
+    color: var(--text);
+    line-height: 1.55;
+    padding: 6px 8px 8px;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .scene {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 10px 12px 8px;
+    box-shadow: var(--glow);
+    animation: fade 0.28s ease;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0;
+    flex-direction: column;
+  }
+  .scene.active {
+    display: flex;
+  }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
+  .scene-body {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .narr {
+    color: var(--goddess);
+    font-size: 1.05rem;
+    white-space: pre-wrap;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+    text-align: left;
+    word-break: break-word;
+    line-height: 1.7;
+  }
+  .choice {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px 12px;
+    margin-bottom: 5px;
+    background: var(--choice);
+    border: 1px solid rgba(244, 63, 94, 0.25);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.96rem;
+    cursor: pointer;
+    transition: 0.18s;
+    font-family: inherit;
+    position: relative;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+  .choice:hover, .choice:active {
+    border-color: var(--accent);
+    background: var(--choice-hover);
+    box-shadow: 0 0 12px rgba(244, 63, 122, 0.25);
+  }
+  .choice.selected {
+    border-color: #f43f7a;
+    background: linear-gradient(135deg, #5a1b30, #43172a);
+    box-shadow: 0 0 18px rgba(244, 63, 122, 0.45), inset 0 0 12px rgba(244, 63, 94, 0.15);
+    color: #fff;
+  }
+  .choice.selected::after {
+    content: " ✓";
+    color: #f43f7a;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .end {
+    text-align: center;
+    color: var(--muted);
+    padding: 12px 6px;
+    line-height: 1.7;
+    font-size: 0.85rem;
+  }
+  .end-title {
+    color: var(--accent);
+    font-size: 0.98rem;
+    margin-bottom: 8px;
+    text-shadow: 0 0 12px rgba(244, 63, 122, 0.4);
+  }
+  .progress {
+    height: 3px;
+    background: #351322;
+    border-radius: 2px;
+    margin-bottom: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #f43f5e, #c0265a);
+    width: 0%;
+    transition: width 0.35s ease;
+  }
+  .scene-img {
+    width: 100%;
+    margin: 0 0 8px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(244, 63, 94, 0.28);
+    background: #080409;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 42vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .scene-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 42vh;
+    object-fit: contain;
+    object-position: center;
+  }
+  .inline-qrs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 6px 0;
+    flex-shrink: 0;
+  }
+  .inline-qrs div { text-align: center; }
+  .inline-qrs img {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    border: 2px solid rgba(244, 63, 122, 0.5);
+    border-radius: 6px;
+    background: #fff;
+  }
+  .inline-qrs p {
+    color: var(--muted);
+    font-size: 0.65rem;
+    margin-bottom: 2px;
+  }
+  .disclaimer-box {
+    background: rgba(251, 113, 133, 0.08);
+    border: 1px solid rgba(251, 113, 133, 0.35);
+    border-radius: 10px;
+    padding: 10px 10px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex-shrink: 0;
+  }
+  .disclaimer-box strong {
+    color: var(--warn);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 1rem;
+  }
+  .note {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 4px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .pay-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(3, 9, 6, 0.94);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 12px;
+  }
+  .pay-overlay.show { display: flex; }
+  .pay-card {
+    background: #1b0b14;
+    border: 1px solid rgba(236, 72, 153, 0.45);
+    border-radius: 14px;
+    padding: 14px 12px 12px;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 28px rgba(244, 63, 94, 0.3);
+  }
+  .pay-card h3 {
+    color: var(--accent);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .pay-card .tip {
+    color: var(--warn);
+    font-size: 0.82rem;
+    margin-bottom: 8px;
+  }
+  .pay-btn {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    margin-top: 6px;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    background: linear-gradient(135deg, #a3133b, #f43f5e);
+    color: #fff;
+    font-size: 0.88rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .pay-btn:active { opacity: 0.85; }
+  .nav-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .nav-btn {
+    flex: 1;
+    padding: 9px 8px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    background: #160912;
+    color: var(--muted);
+    transition: 0.18s;
+  }
+  .nav-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  #boot-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #050207;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #boot-layer.hidden { display: none; }
+  .boot-loading { text-align: center; color: var(--muted); }
+  .boot-loading .spinner {
+    width: 42px; height: 42px;
+    border: 3px solid rgba(244, 63, 94, 0.25);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .boot-loading p { font-size: 0.9rem; letter-spacing: 1px; }
+  .boot-progress {
+    width: 200px; height: 4px;
+    background: #24101b; border-radius: 2px;
+    margin: 14px auto 0; overflow: hidden;
+  }
+  .boot-progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #f43f5e, #c0265a);
+    transition: width 0.2s ease;
+  }
+  #intro-layer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: #000;
+    cursor: pointer;
+    overflow: hidden;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  #intro-layer.show { display: block; }
+  #intro-layer.leaving {
+    opacity: 0;
+    transform: scale(1.08);
+    pointer-events: none;
+  }
+  #intro-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    background: #000;
+  }
+  .intro-text {
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 0 16px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .intro-title {
+    display: inline-block;
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+    max-width: 100%;
+    text-shadow:
+      0 0 4px #fff,
+      0 0 8px #fff,
+      0 0 12px rgba(255, 255, 255, 0.85),
+      0 0 18px #f43f5e,
+      0 0 28px #f43f5e,
+      0 0 40px rgba(244, 63, 94, 0.85),
+      0 0 55px #f59e0b,
+      0 0 75px rgba(163, 230, 53, 0.7),
+      0 2px 10px rgba(0, 0, 0, 0.75);
+    animation: titleNeonFloat 2.8s ease-in-out infinite;
+  }
+  @keyframes titleNeonFloat {
+    0%, 100% {
+      transform: translateY(0);
+      filter: brightness(0.92);
+      text-shadow:
+        0 0 4px #fff,
+        0 0 8px #fff,
+        0 0 12px rgba(255, 255, 255, 0.75),
+        0 0 18px #f43f5e,
+        0 0 28px #f43f5e,
+        0 0 40px rgba(244, 63, 94, 0.7),
+        0 0 55px #f59e0b,
+        0 0 70px rgba(163, 230, 53, 0.55),
+        0 2px 10px rgba(0, 0, 0, 0.75);
+    }
+    50% {
+      transform: translateY(-7px);
+      filter: brightness(1.18);
+      text-shadow:
+        0 0 6px #fff,
+        0 0 12px #fff,
+        0 0 18px rgba(255, 255, 255, 0.95),
+        0 0 24px #f43f5e,
+        0 0 38px #f43f5e,
+        0 0 52px rgba(244, 63, 94, 0.95),
+        0 0 70px #f59e0b,
+        0 0 95px rgba(163, 230, 53, 0.85),
+        0 2px 10px rgba(0, 0, 0, 0.75);
+    }
+  }
+  .intro-light-line {
+    display: block;
+    height: 2px;
+    margin: 14px auto 0;
+    border-radius: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      #fff 15%,
+      #f43f5e 50%,
+      #f59e0b 85%,
+      transparent 100%
+    );
+    box-shadow:
+      0 0 6px rgba(255, 255, 255, 0.9),
+      0 0 12px rgba(244, 63, 94, 0.85),
+      0 0 22px rgba(163, 230, 53, 0.65),
+      0 0 36px rgba(244, 63, 94, 0.4);
+    transform-origin: center;
+    animation: lightLinePulse 2.4s ease-in-out infinite;
+  }
+  @keyframes lightLinePulse {
+    0%, 100% {
+      width: 42%;
+      opacity: 0.45;
+      box-shadow:
+        0 0 4px rgba(255, 255, 255, 0.7),
+        0 0 10px rgba(244, 63, 94, 0.6),
+        0 0 18px rgba(163, 230, 53, 0.4);
+    }
+    50% {
+      width: 78%;
+      opacity: 1;
+      box-shadow:
+        0 0 8px rgba(255, 255, 255, 1),
+        0 0 16px rgba(244, 63, 94, 0.95),
+        0 0 28px rgba(163, 230, 53, 0.8),
+        0 0 42px rgba(255, 45, 85, 0.5);
+    }
+  }
+  .intro-hint {
+    display: block;
+    margin-top: 18px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: #fbbf24;
+    text-shadow:
+      0 0 6px rgba(163, 230, 53, 0.9),
+      0 0 12px rgba(244, 63, 94, 0.75),
+      0 0 20px rgba(244, 63, 94, 0.45),
+      0 1px 4px rgba(0, 0, 0, 0.8);
+    animation: hintBreathe 2s ease-in-out infinite;
+  }
+  @keyframes hintBreathe {
+    0%, 100% {
+      opacity: 0.55;
+      transform: scale(0.96);
+      color: #fbbf24;
+      text-shadow:
+        0 0 4px rgba(163, 230, 53, 0.7),
+        0 0 10px rgba(244, 63, 94, 0.55),
+        0 0 16px rgba(244, 63, 94, 0.3),
+        0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.06);
+      color: #fde68a;
+      text-shadow:
+        0 0 8px rgba(190, 242, 100, 1),
+        0 0 16px rgba(255, 45, 85, 0.9),
+        0 0 28px rgba(244, 63, 122, 0.6),
+        0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  /* ===== 旧问卷原样心跳/全屏特效层 ===== */
+  #fx-layer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: auto;
+    overflow: hidden;
+  }
+  #fx-layer.show { display: block; }
+  .fx-heartbeat {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 3, 3, 0.93);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fx-heartbeat .fx-msg {
+    color: #f43f7a;
+    font-size: 1.12rem;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 1.7;
+    padding: 0 24px;
+    animation: heartbeat 0.7s ease-in-out infinite;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 24px rgba(244, 63, 122, 0.85); }
+  }
+  .fx-black {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fx-black .fx-msg {
+    color: #f59e0b;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    text-align: center;
+    line-height: 1.7;
+    padding: 0 28px;
+  }
+  .fx-rain {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #7a102d 0%, #3d0b1d 40%, #10070d 100%);
+    overflow: hidden;
+  }
+  .fx-rain .rain-item {
+    position: absolute;
+    color: rgba(255, 230, 150, 0.9);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    animation: rainFall linear forwards;
+    text-shadow: 0 0 8px rgba(0,0,0,0.4);
+    pointer-events: none;
+  }
+  @keyframes rainFall {
+    0% { transform: translateY(-40px) rotate(-8deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.9; }
+    100% { transform: translateY(110vh) rotate(6deg); opacity: 0; }
+  }
+  .watch-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .watch-layer .watch-item {
+    position: absolute;
+    color: rgba(201, 162, 39, 0.28);
+    font-size: 0.72rem;
+    white-space: nowrap;
+    animation: watchDrift 9s linear infinite;
+    user-select: none;
+  }
+  @keyframes watchDrift {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    15% { opacity: 0.55; }
+    85% { opacity: 0.35; }
+    100% { transform: translateY(-130px) translateX(18px); opacity: 0; }
+  }
+
+  #main-app {
+    display: none;
+    height: 100%;
+    height: 100dvh;
+  }
+  #main-app.show { display: block; }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 24px rgba(251,113,133,0.85); }
+  }
+  .watch-layer .watch-item {
+    position: absolute;
+    color: rgba(244, 63, 122, 0.26);
+    font-size: 0.68rem;
+    white-space: nowrap;
+    animation: watchDrift 9s linear infinite;
+    user-select: none;
+  }
+  @keyframes watchDrift {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    15% { opacity: 0.5; }
+    85% { opacity: 0.35; }
+    100% { transform: translateY(-130px) translateX(18px); opacity: 0; }
+  }
+  .scene.intense {
+    border-color: rgba(244, 114, 182, 0.55);
+    box-shadow: 0 0 36px rgba(236, 72, 153, 0.4);
+  }
+  .choices-wrap {
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+
+  .em {
+    color: #f43f7a;
+    font-weight: 600;
+  }
+  .em-warn {
+    color: #fb7185;
+    font-weight: 700;
+  }
+
+
+  .video-card video {
+    width: 100%;
+    max-height: 45vh;
+    border-radius: 8px;
+    background: #000;
+    display: block;
+  }
+  .work-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 11px 12px;
+    margin-bottom: 6px;
+    background: var(--choice);
+    border: 1px solid rgba(244, 63, 94, 0.35);
+    border-radius: 8px;
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: 0.18s;
+  }
+  .work-link:hover, .work-link:active {
+    border-color: var(--accent);
+    background: var(--choice-hover);
+    box-shadow: 0 0 12px rgba(244, 63, 122, 0.25);
+  }
+  .works-box {
+    background: rgba(236, 72, 153, 0.08);
+    border: 1px solid rgba(244, 63, 94, 0.28);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .works-box strong {
+    display: block;
+    color: var(--accent);
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .works-box a {
+    display: block;
+    color: #fb7185;
+    font-size: 0.88rem;
+    text-decoration: none;
+    padding: 5px 4px;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 1.35;
+    transition: 0.15s;
+  }
+  .works-box a:hover, .works-box a:active {
+    color: #fff;
+    background: rgba(244, 63, 94, 0.18);
+    text-shadow: 0 0 8px rgba(244, 63, 122, 0.5);
+  }
+
+  /* 允许正常选择、复制和粘贴网页文字 */
+
+  /* input / upload modal */
+  .input-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(10, 4, 18, 0.92);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .input-overlay.show { display: flex; }
+  .input-card {
+    background: #1b0b14;
+    border: 1px solid rgba(236, 72, 153, 0.45);
+    border-radius: 14px;
+    padding: 18px 16px 14px;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 28px rgba(244, 63, 94, 0.3);
+  }
+  .input-card .tip {
+    color: var(--accent);
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .input-card input[type="text"] {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(244, 63, 94, 0.35);
+    background: #10070d;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    margin-bottom: 12px;
+  }
+  .input-card input[type="text"]:focus {
+    border-color: var(--accent);
+  }
+  .input-card input[type="file"] {
+    width: 100%;
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .input-card .preview {
+    max-width: 100%;
+    max-height: 160px;
+    border-radius: 8px;
+    margin: 0 auto 12px;
+    display: none;
+  }
+  .input-card .preview.show { display: block; }
+  .input-card .pay-btn {
+    margin-top: 0;
+  }
+  .input-card .err {
+    color: var(--warn);
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+    min-height: 1.2em;
+  }
+  /* countdown */
+  .countdown-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 350;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .countdown-overlay.show { display: flex; }
+  .countdown-msg {
+    color: #fb7185;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+    text-align: center;
+    padding: 0 20px;
+    text-shadow: 0 0 18px rgba(244, 63, 94, 0.8);
+    animation: cdFadeIn 0.5s ease;
+  }
+  .countdown-num {
+    font-size: 5.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow:
+      0 0 12px #fff,
+      0 0 28px #f43f5e,
+      0 0 48px #f43f5e,
+      0 0 70px rgba(244, 63, 94, 0.7);
+    animation: cdPulse 1s ease-in-out;
+  }
+  @keyframes cdFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes cdPulse {
+    0% { transform: scale(0.55); opacity: 0.3; }
+    40% { transform: scale(1.12); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  html, body, .container, .scene, .scene-body, .narr, .disclaimer-box, .end, .end-title, .note, .em, .em-warn {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+  button, .choice, .nav-btn, .pay-btn, .work-link {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* 防止普通浏览器直接选择、复制网页文字 */
+  html, body, body * {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+  }
+
+  /* 保证输入框（如果以后加入）仍可正常输入 */
+  input, textarea, [contenteditable="true"] {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    user-select: text !important;
+  }
+
+</style>
+</head>
+<body>
+<div id="fx-layer"></div>
+<div id="boot-layer">
+  <div class="boot-loading">
+    <div class="spinner"></div>
+    <p>小妲正在进入……</p>
+    <div class="boot-progress"><div class="boot-progress-bar" id="bootBar"></div></div>
+  </div>
+</div>
+<div id="intro-layer">
+  <img id="intro-img" src="https://i.postimg.cc/x8jgscpY/iroha-zu-li-142163327-p1.jpg" alt="封面">
+  <div class="intro-text">
+    <span class="intro-title">小妲的胁po体验计划</span>
+    <div class="intro-light-line"></div>
+    <span class="intro-hint">点击屏幕进入</span>
+  </div>
+</div>
+<div id="main-app">
+<div class="container">
+<div class="progress"><div class="progress-bar" id="bar"></div></div>
+
+<div class="scene intense active" id="s1">
+  <div class="scene-body">
+    <div class="disclaimer-box">
+      <strong>须知</strong>
+      本内容仅供年满18岁且拥有自主思考能力的自愿参与者娱乐使用。若感到不适，请立即停止。继续游玩即表示你已年满18岁，且自愿游玩。
+    </div>
+    <div class="works-box">
+      <strong>小妲的其它作品</strong>
+      <a href="https://bc-omega-nine.vercel.app/" target="_blank" rel="noopener">小妲的白痴贡n问卷2.0</a>
+      <a href="https://zul-ruby.vercel.app/" target="_blank" rel="noopener">小妲的上gong小游戏•动画版</a>
+      <a href="https://ten-ten-dusky.vercel.app/" target="_blank" rel="noopener">小妲的十日贡n调教小游戏</a>
+      <a href="https://xd21.vercel.app/" target="_blank" rel="noopener">小妲的上gong小游戏2.2</a>
+      <a href="https://yindao-liard.vercel.app/" target="_blank" rel="noopener">小妲的贡奴引导训练</a>
+    </div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s2">我已彻底知悉并同意</button>
+    <button class="choice" data-next="end_exit">退出</button>
+    <div class="nav-row">
+      <button class="nav-btn" disabled>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s2">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/vDwg4Mtd/ju-bu-qing-xi-xiao-guo.png" alt="" loading="lazy"></div>
+    <div class="narr">你好啊，客官～🖤<br>看见小妲的足底已经忍耐不住了叭～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s3">🥵对</button>
+    <button class="choice" data-next="s3">是的</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s3">
+  <div class="scene-body">
+        <div class="narr">已经开始意淫被小妲足底板踩死的样子了嘛～🖤<br><br>真贱呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s4">🥵🥵已经思考不了</button>
+    <button class="choice" data-next="s4">呜呜呜，忍不住</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s4">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/vDwg4Mtd/ju-bu-qing-xi-xiao-guo.png" alt="" loading="lazy"></div>
+    <div class="narr">来叭～🖤<br>对着小妲的足底撸10下叭～🖤<br>不用客气～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s5">谢谢小妲🥵🥵🥵</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s5">
+  <div class="scene-body">
+        <div class="narr">没有那么简单哦～🖤<br>小妲现在不要你上贡钱～🖤<br>要你上贡自己～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s6">不明白🥺</button>
+    <button class="choice" data-next="s6">什么是上贡自己？</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s6">
+  <div class="scene-body">
+        <div class="narr">就是上贡客官的一点点小东西呢～🖤<br>放心啦，小妲不会害你的～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s7">好的！</button>
+    <button class="choice" data-next="s7">明白啦！</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s7">
+  <div class="scene-body">
+        <div class="narr">那么告诉小妲你的名字叭～🖤<br>告诉完小妲就可以对着小妲脚底板撸10下哦～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-input="name" data-next="s8">🥵🥵🥵是！</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s8">
+  <div class="scene-body">
+        <div class="narr">好名字呢～🖤<br>那么，接下来就是你现在上学的学校或者毕业的学校咯～🖤<br>来，告诉小妲～🖤<br>只要说出来就可以撸哦～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-input="school" data-next="s9">🥵🥵🥵是！</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s9">
+  <div class="scene-body">
+        <div class="narr">真棒呢～🖤<br>为了射在小妲的脚底板上已经思考不了叭～🖤<br>真的是什么都告诉小妲了～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s10">🥺🥺🥺太喜欢小妲了</button>
+    <button class="choice" data-next="s10">🥵🥵🥵是的</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s10">
+  <div class="scene-body">
+        <div class="narr">现在，需要客官上贡自己的照片咯～🖤<br>放心啦～🖤<br>小妲只是很好奇呢～🖤<br>不会怎么样的～😊<br>来叭，上传完就可以舒服咯～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-upload="photo" data-next="s11">好叭😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s11">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">咦～🖤<br>长的就很贱呢～🖤<br>白痴～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s12">被小妲骂爽了🥵</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s12">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">很符合小妲眼中弱智龟男的样子呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s13">才不是呢😭😭😭</button>
+    <button class="choice" data-next="s13">🥺🥺🥺我是🐢男</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s13">
+  <div class="scene-body">
+        <div class="narr">现在，立刻，跪在地板上～🖤<br>得好好听话呢～🖤<br>傻逼🖕🏻</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s14">啊啊啊啊</button>
+    <button class="choice" data-next="s14">我才不是😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s14">
+  <div class="scene-body">
+        <div class="narr">现在，小妲有你的名字、学校，还有照片，你猜猜小妲会把你怎么样？</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s15">不知道🥺</button>
+    <button class="choice" data-next="s15">求小妲放过😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s15">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">像你这样的男生真是无可救药呢～🖤<br>因为一张足底板就上贡自己，实在是弱智呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s16">😭😭😭</button>
+    <button class="choice" data-next="s16">是被小妲骗了🥺</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s16">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/vDwg4Mtd/ju-bu-qing-xi-xiao-guo.png" alt="" loading="lazy"></div>
+    <div class="narr">那，小妲就满足你咯～🖤<br>现在，继续撸吧～🖤<br>10下～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s17">谢谢小妲🥵</button>
+    <button class="choice" data-next="s17">好舒服🥺</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s17">
+  <div class="scene-body">
+        <div class="narr">读出来～🖤<br>「是最贱的傻逼龟男」<br>记得加上自己的名字～🖤<br>要10遍哦～🖤<br>读一遍撸一下～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s18">读完了😭</button>
+    <button class="choice" data-next="s18">这样好贱啊🥵</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s18">
+  <div class="scene-body">
+        <div class="narr">现在，边顶胯边再说10次～🖤<br>必须做哦～🖤<br>不然小妲就把你的照片、名字、学校曝光出去～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s19">别！我做</button>
+    <button class="choice" data-next="s19">呜呜呜不要，我做😖</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s19">
+  <div class="scene-body">
+        <div class="narr">真好玩～🖤<br>一个男生被要求顶胯呢～🖤<br>很好玩叭～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s20">呜呜呜好羞耻</button>
+    <button class="choice" data-next="s20">🥺小妲好坏</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s20">
+  <div class="scene-body">
+        <div class="narr">边顶胯边撸～🖤<br>跟着小妲来～🖤<br>要完全按照小妲说的做哦～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s21">是！</button>
+    <button class="choice" data-next="s21">呜呜呜好😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s21">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/vDwg4Mtd/ju-bu-qing-xi-xiao-guo.png" alt="" loading="lazy"></div>
+    <div class="narr">加速～🖤<br>好好看着脚底板～🖤<br>看着你永远只能用眼睛欣赏的美好～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s22">呜呜呜😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s22">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/vDwg4Mtd/ju-bu-qing-xi-xiao-guo.png" alt="" loading="lazy"></div>
+    <div class="narr">像你这样白痴只配远远地看着小妲～🖤<br>一辈子都只能是个傻逼🐢男～🖤<br>一辈子都只能靠着意淫小妲的脚底板高潮～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s23">啊啊啊啊啊</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s23">
+  <div class="scene-body">
+        <div class="narr">停！<br><br>不准撸了～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s24">难受😭</button>
+    <button class="choice" data-next="s24">啊啊啊不要啊🥺</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s24">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">现在必须要上贡一次才可以继续呢～🖤<br>你以为小妲会这么轻易让你射吗？<br>白痴～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s25">呜呜呜😭</button>
+    <button class="choice" data-next="s25">要多少啊🥺</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s25">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">自己选个数字叭～🖤<br>越大越好呢～🖤<br>要让小妲满意呢～🖤<br>小妲不满意的话，你的光荣事迹就可能出现在任何地方哦～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s26">不要！我上贡就是了😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s26">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/ht4YLyP8/IMG-20260721-005339.png" alt="" loading="lazy"></div>
+    <div class="narr">来叭～🖤<br>保存下来～🖤<br>然后扫码～🖤<br>备注「白痴自愿上贡给小妲大人」<br>输入密码～🖤<br>点下去～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s27">😭已经上贡了</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s27">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/vDwg4Mtd/ju-bu-qing-xi-xiao-guo.png" alt="" loading="lazy"></div>
+    <div class="narr">意外的不错呢～🖤<br>那好叭～🖤<br>看在你这么乖的份上～🖤<br>就继续撸叭～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s28">🥵🥵🥵好！</button>
+    <button class="choice" data-next="s28">又能爽了🥺🥺</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s28">
+  <div class="scene-body">
+        <div class="narr">啧～🖤<br>小妲果然没说错呢～🖤<br>照片里的你跟现在一样呢～🖤<br>就是个傻逼！<br></div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s29">😭不是的</button>
+    <button class="choice" data-next="s29">我是🥵</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s29">
+  <div class="scene-body">
+        <div class="narr">看看自己现在的样子叭～🖤<br>顶着胯撸着管，就是个发情的贱蛆呢～🖤<br>哪里还有一点尊严呢？</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s30">🥺🥺🥺</button>
+    <button class="choice" data-next="s30">🥵🥵🥵小妲说的是</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s30">
+  <div class="scene-body">
+        <div class="narr">现在给你一个镜子的话～🖤<br>马上就会因为镜子里自己的贱样翻白眼高潮呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s31">呜呜呜是的</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s31">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">什么嘛～🖤<br>已经要射了嘛～🖤<br>要求小妲同意嘛～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s32">求求小妲了😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s32">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">不可以呢～🖤<br>现在不准动哦～🖤<br>你可不配射精～🖤<br>你只能寸止到憋死呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s33">不要啊😭😭😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s33">
+  <div class="scene-body">
+        <div class="narr">不过也不是没有机会呢～🖤<br>还记得刚才金额页面里最大的数字嘛～🖤<br>100呢～🖤<br>再上贡一次100就可以了～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s34">啊啊啊啊太多了😭不可以</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s34">
+  <div class="scene-body">
+        <div class="narr">不可以？<br>小妲说可以就可以呢～🖤<br>傻逼🖕🏻<br>马上吐！<br>不吐就等着大家知道你的贱样叭～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s35">😭😭😭不要不要，不要曝光</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s35">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/ht4YLyP8/IMG-20260721-005339.png" alt="" loading="lazy"></div>
+    <div class="narr">扫码！<br>100！<br>备注「自愿上贡给小妲大人」<br>马上！<br></div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s36">😭😭😭已经上贡了</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s36">
+  <div class="scene-body">
+        <div class="narr">这才乖嘛～🖤<br>不听话的话～🖤<br>以后一辈子都只能低着头做人了呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s37">😭😭😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s37">
+  <div class="scene-body">
+        <div class="narr">对呢～🖤<br>还想射精呢对叭？</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s38">是的🥵🥵🥵</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s38">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">好啊～🖤<br>别说小妲坏哦～🖤<br>给你这个机会～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-countdown="10" data-next="s39">好！</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s39">
+  <div class="scene-body">
+        <div class="narr">啧，真恶心～🖤<br>没有人能像你一样顶着跨像只狗一样射精呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s40">😭😭😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s40">
+  <div class="scene-body">
+        <div class="narr">那么，谢谢傻逼你咯～🖤<br>今天得到不错的贡金了呢～🖤<br>得谢谢傻逼的低贱和无脑呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s41">是小妲太坏了😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s41">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png" alt="" loading="lazy"></div>
+    <div class="narr">也别觉得可以解脱了呢🖤<br>小妲会拿着你自己贡出的把柄一直压榨你的～🖤<br>毕竟这些东西很有用呢～🖤<br>小妲会好好使用的～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s42">😭😭😭</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s42">
+  <div class="scene-body">
+        <div class="narr">今天的胁迫体验结束咯～🖤<br>请不用担心真的会被胁迫～🖤<br>小妲拿不到任何真的数据呢～🖤<br>除非是某些人自己真的送上门呢～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="s43">小妲还是善良的🥺</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="s43">
+  <div class="scene-body">
+    <div class="scene-img"><img src="https://i.postimg.cc/ht4YLyP8/IMG-20260721-005339.png" alt="" loading="lazy"></div>
+    <div class="narr">鉴于小妲这么努力地压榨你～🖤<br>没有真的上贡的话，就在这里留下你的贡金叭～🖤<br>有上贡了的话，小妲也不介意在收一次呢～🖤<br><br>拜拜咯～🖤</div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" data-next="end_exit">拜拜小妲！</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+<div class="scene intense" id="end_exit">
+  <div class="scene-body">
+    <div class="end">
+      <div class="end-title">体验结束</div>
+      到这里结束咯～🖤<br>
+      想继续被小妲调教的话，可以去看看小妲的其它作品～🖤
+    </div>
+    <div class="works-box">
+      <strong>小妲的其它作品</strong>
+      <a href="https://bc-omega-nine.vercel.app/" target="_blank" rel="noopener">小妲的白痴贡n问卷2.0</a>
+      <a href="https://zul-ruby.vercel.app/" target="_blank" rel="noopener">小妲的上gong小游戏•动画版</a>
+      <a href="https://ten-ten-dusky.vercel.app/" target="_blank" rel="noopener">小妲的十日贡n调教小游戏</a>
+      <a href="https://xd21.vercel.app/" target="_blank" rel="noopener">小妲的上gong小游戏2.2</a>
+      <a href="https://yindao-liard.vercel.app/" target="_blank" rel="noopener">小妲的贡奴引导训练</a>
+    </div>
+  </div>
+  <div class="choices-wrap">
+    <button class="choice" onclick="location.reload()">再来一次</button>
+    <div class="nav-row">
+      <button class="nav-btn" data-nav-prev>返回</button>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+
+<audio id="bgm" src="https://files.catbox.moe/5plhe0.mp3" loop preload="auto"></audio>
+
+<div class="pay-overlay" id="payOverlay">
+  <div class="pay-card">
+    <h3>扫码上贡</h3>
+    <p class="tip" id="payTip">上贡越多越好哦～🖤</p>
+    <div class="inline-qrs" style="margin-bottom:8px;">
+      <div><p>支付宝</p><img src="https://i.postimg.cc/SNh3sQBR/IMG-20260721-005325.jpg" alt="支付宝"></div>
+      <div><p>微信</p><img src="https://i.postimg.cc/ht4YLyP8/IMG-20260721-005339.png" alt="微信"></div>
+    </div>
+    <button type="button" class="pay-btn" id="btnPaid">已上贡 / 继续</button>
+  </div>
+</div>
+
+<script>
+    const order = [
+    's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12', 's13', 's14', 's15', 's16', 's17', 's18', 's19', 's20', 's21', 's22', 's23', 's24', 's25', 's26', 's27', 's28', 's29', 's30', 's31', 's32', 's33', 's34', 's35', 's36', 's37', 's38', 's39', 's40', 's41', 's42', 's43', 'end_exit'
+  ];
+  const payGates = {};
+  let pendingGo = null;
+  let selectedAmount = null;
+  let historyStack = ['s1'];
+  const answers = [];
+
+  function recordAnswer(q, a) {
+    answers.push({ q, a, time: new Date().toLocaleString('zh-CN') });
+  }
+  function getCurrentChapter() {
+    const el = document.querySelector('.scene.active .chapter');
+    return el ? el.textContent.trim() : '未知';
+  }
+  function getCurrentId() {
+    const el = document.querySelector('.scene.active');
+    return el ? el.id : null;
+  }
+
+
+
+  // ===== 特效数据：来自用户导出的 JSON；不修改问卷题目内容 =====
+  const FX_MAP = {
+    "2":  { type: "heartbeat", msg: "不能急哦～🖤", duration: 3000 },
+    "9":  { type: "heartbeat", msg: "真是乖狗狗呢～🖤", duration: 3000 },
+    "12": { type: "heartbeat", msg: "傻逼🐢男🖕🏻", duration: 3000 },
+    "15": { type: "heartbeat", msg: "小妲可是帮你认清自己本质了呢～🖤", duration: 3000 },
+    "22": { type: "heartbeat", msg: "说错了捏，下辈子也是呢～🖤", duration: 3000 },
+    "31": { type: "heartbeat", msg: "你觉得小妲可能同意嘛？傻逼！", duration: 3000 },
+    "36": { type: "heartbeat", msg: "不对哦，连人都做不成了～🖤", duration: 3000 },
+    "41": { type: "heartbeat", msg: "会直到把你榨干价值为止呢～🖤", duration: 3000 }
+  };
+  const WATCH_LEVEL = {
+    "2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1,"10":1,
+    "11":2,"12":2,"13":2,"14":2,"15":2,"16":2,"17":2,"18":2,"19":2,"20":2,"21":2,"22":2,"23":2,"24":2,"25":2,"26":2,
+    "27":3,"28":3,"29":3,"30":3,"31":3,"32":3,"33":3,"34":3,"35":3,"36":3,"37":3,"38":3,"39":3,"40":3,"41":3
+  };
+  const WATCH_TEXTS = {
+    1: ["客官好～🖤","放心游玩叭～🖤","不会有任何危险的～🖤","小妲不会骗你呢～🖤"],
+    2: ["白痴～🖤","傻逼～🖤","只能被胁迫成贡奴了呢～🖤","谁叫你这么白痴呢～🖤","果然一点智商都没有～🖤"],
+    3: ["你没有射精的权力呢～🖤","你只配被锁着一辈子～🖤","你会永远被小妲利用～🖤","你现在只是个ATM～🖤","你只配当个玩具了呢～🖤"]
+  };
+  const RAIN_TEXTS = [];
+
+  function fxKey(id) {
+    return String(id || '').replace(/^s/, '');
+  }
+
+  function playFx(type, msg, duration) {
+    return new Promise(function(resolve) {
+      const layer = document.getElementById('fx-layer');
+      if (!layer) { resolve(); return; }
+      layer.innerHTML = '';
+      layer.classList.add('show');
+
+      if (type === 'black') {
+        const div = document.createElement('div');
+        div.className = 'fx-black';
+        div.innerHTML = '<div class="fx-msg">' + (msg || '……') + '</div>';
+        layer.appendChild(div);
+        setTimeout(function(){ layer.classList.remove('show'); layer.innerHTML = ''; resolve(); }, duration || 2400);
+      } else if (type === 'heartbeat') {
+        // 与旧问卷 playFx 的 heartbeat 分支保持同一 DOM/动画/清理方式。
+        const div = document.createElement('div');
+        div.className = 'fx-heartbeat';
+        div.innerHTML = '<div class="fx-msg">' + (msg || '……') + '</div>';
+        layer.appendChild(div);
+        setTimeout(function(){ layer.classList.remove('show'); layer.innerHTML = ''; resolve(); }, duration || 2800);
+      } else if (type === 'rain') {
+        const rain = document.createElement('div');
+        rain.className = 'fx-rain';
+        layer.appendChild(rain);
+        const words = RAIN_TEXTS.length ? RAIN_TEXTS : ['献给小妲♥'];
+        for (let i = 0; i < 52; i++) {
+          const item = document.createElement('div');
+          item.className = 'rain-item';
+          item.textContent = words[Math.floor(Math.random() * words.length)];
+          item.style.left = (Math.random() * 100) + '%';
+          item.style.top = (-Math.random() * 30) + 'px';
+          item.style.animationDuration = (2.2 + Math.random() * 2.8) + 's';
+          item.style.animationDelay = (Math.random() * 1.2) + 's';
+          item.style.fontSize = (0.7 + Math.random() * 0.45) + 'rem';
+          item.style.opacity = 0.55 + Math.random() * 0.4;
+          rain.appendChild(item);
+        }
+        setTimeout(function(){ layer.classList.remove('show'); layer.innerHTML = ''; resolve(); }, duration || 4000);
+      } else {
+        layer.classList.remove('show');
+        resolve();
+      }
+    });
+  }
+
+  function playConfiguredFx(sceneId) {
+    const fx = FX_MAP[fxKey(sceneId)];
+    if (fx) playFx(fx.type, fx.msg, fx.duration);
+  }
+
+  let watchTimer = null;
+  let activeWatchLevel = 0;
+  function clearWatch() {
+    const old = document.querySelector('.scene.active .watch-layer');
+    if (old) old.remove();
+    if (watchTimer) { clearInterval(watchTimer); watchTimer = null; }
+    activeWatchLevel = 0;
+  }
+  function spawnWatch(level) {
+    clearWatch();
+    const panel = document.querySelector('.scene.active');
+    if (!panel || !level) return;
+    activeWatchLevel = level;
+    let layer = panel.querySelector('.watch-layer');
+    if (!layer) {
+      layer = document.createElement('div');
+      layer.className = 'watch-layer';
+      panel.appendChild(layer);
+    }
+    const pool = WATCH_TEXTS[level] || WATCH_TEXTS[1];
+    const count = level === 1 ? 7 : (level === 2 ? 11 : 16);
+    function addOne() {
+      if (!document.body.contains(layer)) return;
+      const item = document.createElement('div');
+      item.className = 'watch-item';
+      item.textContent = pool[Math.floor(Math.random() * pool.length)];
+      item.style.left = (5 + Math.random() * 82) + '%';
+      item.style.top = (25 + Math.random() * 68) + '%';
+      item.style.animationDelay = (Math.random() * 2.5) + 's';
+      item.style.animationDuration = (7.5 + Math.random() * 3) + 's';
+      layer.appendChild(item);
+      setTimeout(function(){ if (item.parentNode) item.remove(); }, 12000);
+    }
+    for (let i = 0; i < count; i++) addOne();
+    watchTimer = setInterval(addOne, level === 1 ? 1500 : (level === 2 ? 1050 : 750));
+  }
+  function updateWatchForScene(id) {
+    const level = WATCH_LEVEL[fxKey(id)] || 0;
+    if (level) spawnWatch(level); else clearWatch();
+  }
+
+  function goDirect(id) {
+    document.querySelectorAll('.scene').forEach(el => el.classList.remove('active'));
+    const t = document.getElementById(id);
+    if (t) {
+      t.classList.add('active');
+      const idx = order.indexOf(id);
+      const pct = idx >= 0 ? Math.min(100, (idx / (order.length - 2)) * 100) : 100;
+      document.getElementById('bar').style.width = pct + '%';
+      const prevBtn = t.querySelector('[data-nav-prev]');
+      if (prevBtn) prevBtn.disabled = historyStack.length <= 1;
+      updateWatchForScene(id);
+    }
+  }
+
+  async function go(id) {
+    const cur = getCurrentId();
+    if (cur && cur !== id) {
+      if (historyStack[historyStack.length - 1] !== id) historyStack.push(id);
+    }
+    if (payGates[id]) {
+      pendingGo = id;
+      const tip = document.getElementById('payTip');
+      if (tip && selectedAmount != null) {
+        tip.textContent = (typeof selectedAmount === 'number' || !isNaN(parseFloat(selectedAmount)))
+          ? '当前选择：' + selectedAmount + '元，上贡越多越好哦～🖤'
+          : '上贡越多，小妲越会特别记住你～🖤';
+      }
+      const ov = document.getElementById('payOverlay');
+      if (ov) ov.classList.add('show');
+      return;
+    }
+    goDirect(id);
+  }
+
+  function goPrev() {
+    if (historyStack.length <= 1) return;
+    historyStack.pop();
+    goDirect(historyStack[historyStack.length - 1]);
+  }
+
+    
+function preloadAll() {
+  // 预加载封面、题目图片、收款码与背景音乐
+  const assets = [
+    {type:'img', url:'https://i.postimg.cc/x8jgscpY/iroha-zu-li-142163327-p1.jpg'},
+    {type:'img', url:'https://i.postimg.cc/vDwg4Mtd/ju-bu-qing-xi-xiao-guo.png'},
+    {type:'img', url:'https://i.postimg.cc/3NnFstMF/ju-bu-qing-xi-xiao-guo-2.png'},
+    {type:'img', url:'https://i.postimg.cc/ht4YLyP8/IMG-20260721-005339.png'},
+    {type:'img', url:'https://i.postimg.cc/SNh3sQBR/IMG-20260721-005325.jpg'},
+    {type:'audio', url:'https://files.catbox.moe/5plhe0.mp3', target:'bgm'}
+  ];
+
+  return new Promise(function(resolve) {
+    let loaded = 0, finished = false;
+    const total = assets.length;
+    const bar = document.getElementById('bootBar');
+
+    function progress() {
+      loaded++;
+      if (bar) bar.style.width = Math.round(loaded / total * 100) + '%';
+      if (loaded >= total && !finished) {
+        finished = true;
+        if (bar) bar.style.width = '100%';
+        resolve();
+      }
+    }
+
+    function loadMediaFallback(item, done) {
+      const media = document.createElement(item.type === 'video' ? 'video' : 'audio');
+      media.preload = 'auto';
+      media.muted = true;
+      media.playsInline = true;
+      let settled = false, checkTimer = null, stallTimer = null;
+
+      function cleanup() {
+        if (checkTimer) clearInterval(checkTimer);
+        if (stallTimer) clearTimeout(stallTimer);
+        media.removeAttribute('src');
+        try { media.load(); } catch (_) {}
+      }
+      function finish() {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        const target = document.getElementById(item.target);
+        if (target) {
+          target.src = item.url;
+          target.preload = 'auto';
+          try { target.load(); } catch (_) {}
+        }
+        done();
+      }
+      function fail() {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        done();
+      }
+      function check() {
+        if (settled) return;
+        if (media.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+          if (!Number.isFinite(media.duration) || media.duration <= 0) {
+            finish();
+            return;
+          }
+          try {
+            if (media.buffered.length) {
+              const end = media.buffered.end(media.buffered.length - 1);
+              if (end >= media.duration - 0.25) finish();
+            }
+          } catch (_) {}
+        }
+      }
+
+      media.addEventListener('loadedmetadata', check);
+      media.addEventListener('loadeddata', check);
+      media.addEventListener('canplay', check);
+      media.addEventListener('canplaythrough', check);
+      media.addEventListener('progress', check);
+      media.addEventListener('timeupdate', check);
+      media.addEventListener('error', fail, {once:true});
+      media.src = item.url;
+      try { media.load(); } catch (_) {}
+      checkTimer = setInterval(check, 500);
+      stallTimer = setTimeout(function() { if (!settled) fail(); }, 45000);
+    }
+
+    function loadItem(item) {
+      let attempt = 0, completed = false, retryTimer = null;
+
+      function complete() {
+        if (completed || finished) return;
+        completed = true;
+        if (retryTimer) clearTimeout(retryTimer);
+        progress();
+      }
+
+      function retry() {
+        if (completed || finished) return;
+        attempt++;
+        const wait = Math.min(8000, 800 * Math.pow(2, Math.min(attempt - 1, 3)));
+        retryTimer = setTimeout(start, wait);
+      }
+
+      function start() {
+        if (completed || finished) return;
+
+        if (item.type === 'img') {
+          const img = new Image();
+          let settled = false;
+          img.onload = function() {
+            if (settled) return;
+            settled = true;
+            complete();
+          };
+          img.onerror = function() {
+            if (settled) return;
+            settled = true;
+            retry();
+          };
+          // 每次图片预加载都带唯一参数，避免异常缓存导致某个浏览器卡在加载阶段。
+          img.crossOrigin = 'anonymous';
+          img.src = item.url + (item.url.indexOf('?') >= 0 ? '&' : '?') + 'preload=' + Date.now() + '_' + attempt;
+          return;
+        }
+
+        const controller = new AbortController();
+        const timeout = setTimeout(function() { controller.abort(); }, 30000);
+
+        fetch(item.url, {
+          method:'GET',
+          cache:'no-store',
+          mode:'cors',
+          signal:controller.signal
+        }).then(function(response) {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.blob();
+        }).then(function(blob) {
+          clearTimeout(timeout);
+          if (!blob || !blob.size) throw new Error('empty media');
+
+          const blobUrl = URL.createObjectURL(blob);
+          const target = document.getElementById(item.target);
+          if (target) {
+            target.src = blobUrl;
+            target.preload = 'auto';
+            try { target.load(); } catch (_) {}
+          }
+          complete();
+        }).catch(function() {
+          clearTimeout(timeout);
+          loadMediaFallback(item, complete);
+        });
+      }
+
+      start();
+    }
+
+    assets.forEach(loadItem);
+  });
+}
+
+function showIntro() {
+    document.getElementById('boot-layer').classList.add('hidden');
+    document.getElementById('intro-layer').classList.add('show');
+  }
+
+  function enterQuestionnaire() {
+    const intro = document.getElementById('intro-layer');
+    if (!intro || intro.classList.contains('leaving')) return;
+    intro.classList.add('leaving');
+    setTimeout(function () {
+      intro.classList.remove('show', 'leaving');
+      intro.style.display = 'none';
+      document.getElementById('main-app').classList.add('show');
+      try {
+        const bgm = document.getElementById('bgm');
+        if (bgm) { bgm.volume = 0.55; bgm.play().catch(function(){}); }
+      } catch (e) {}
+    }, 450);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    preloadAll().then(showIntro);
+    const intro = document.getElementById('intro-layer');
+    intro.addEventListener('click', enterQuestionnaire);
+    intro.addEventListener('touchend', function (e) { e.preventDefault(); enterQuestionnaire(); }, { passive: false });
+
+    const btn = document.getElementById('btnPaid');
+    function done(e) {
+      if (e) e.preventDefault();
+      const ov = document.getElementById('payOverlay');
+      if (ov) ov.classList.remove('show');
+      const id = pendingGo; pendingGo = null;
+      if (id) goDirect(id);
+    }
+    if (btn) {
+      btn.addEventListener('click', done);
+      btn.addEventListener('touchend', function (e) { e.preventDefault(); done(e); }, { passive: false });
+    }
+
+
+    document.querySelectorAll('.choice').forEach(btn => {
+      btn.addEventListener('click', async function (e) {
+        const oc = this.getAttribute('onclick') || '';
+        if (oc.includes('location.reload')) return;
+        
+        const scene = this.closest('.scene');
+        if (scene) {
+          scene.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+          this.classList.add('selected');
+        }
+        if (!this.dataset.recorded) {
+          recordAnswer(getCurrentChapter(), this.textContent.trim().replace(/\s+/g, ' '));
+          this.dataset.recorded = '1';
+        }
+        const next = this.getAttribute('data-next');
+        const sourceId = scene ? scene.id : getCurrentId();
+        if (next) {
+          playConfiguredFx(sourceId);
+          go(next);
+        }
+      }, true);
+    });
+
+    document.querySelectorAll('[data-nav-prev]').forEach(b => b.addEventListener('click', goPrev));
+  });
+</script>
+
+<script>
+  // 不拦截 copy / cut / paste / contextmenu，让浏览器保持默认行为。
+  document.addEventListener('copy', function () {}, false);
+  document.addEventListener('cut', function () {}, false);
+  document.addEventListener('paste', function () {}, false);
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  function block(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+
+  document.addEventListener("contextmenu", block, true);
+  document.addEventListener("copy", block, true);
+  document.addEventListener("cut", block, true);
+  document.addEventListener("dragstart", block, true);
+  document.addEventListener("selectstart", block, true);
+
+  // 手机端长按、拖选等常见选择行为
+  document.addEventListener("touchstart", function (e) {
+    if (e.target.closest("input, textarea, [contenteditable='true']")) return;
+  }, {capture:true, passive:true});
+
+  // 清空剪贴板写入事件，降低通过网页按钮/快捷操作复制的可能性
+  document.addEventListener("beforecopy", block, true);
+})();
+</script>
+
+<script>
+(function () {
+  document.addEventListener("keydown", function (e) {
+    if ((e.ctrlKey || e.metaKey) && ["c","a","s","u","p"].includes(String(e.key).toLowerCase())) {
+      e.preventDefault(); e.stopPropagation();
+      return false;
+    }
+    if (e.key === "F12") {
+      e.preventDefault(); e.stopPropagation();
+      return false;
+    }
+  }, true);
+})();
+</script>
+
+
+<div class="input-overlay" id="inputOverlay">
+  <div class="input-card">
+    <p class="tip" id="inputTip">请输入</p>
+    <div class="err" id="inputErr"></div>
+    <input type="text" id="inputField" placeholder="在这里输入…" autocomplete="off">
+    <button type="button" class="pay-btn" id="btnInputOk">确认上贡</button>
+  </div>
+</div>
+
+<div class="input-overlay" id="uploadOverlay">
+  <div class="input-card">
+    <p class="tip" id="uploadTip">让小妲看看客官的模样叭～🖤</p>
+    <div class="err" id="uploadErr"></div>
+    <input type="file" id="uploadField" accept="image/*">
+    <img class="preview" id="uploadPreview" alt="预览">
+    <button type="button" class="pay-btn" id="btnUploadOk">确认上传</button>
+  </div>
+</div>
+
+<div class="countdown-overlay" id="countdownOverlay">
+  <div class="countdown-msg" id="countdownMsg">不过只有10秒钟时间呢～🖤</div>
+  <div class="countdown-num" id="countdownNum">10</div>
+</div>
+
+
+<script>
+(function(){
+  const collected = { name: '', school: '', photoName: '' };
+  let pendingNext = null;
+  let pendingBtn = null;
+
+  window.__xiaodaCollected = collected;
+
+  function openInput(type, nextId, btn) {
+    pendingNext = nextId;
+    pendingBtn = btn;
+    const ov = document.getElementById('inputOverlay');
+    const tip = document.getElementById('inputTip');
+    const field = document.getElementById('inputField');
+    const err = document.getElementById('inputErr');
+    err.textContent = '';
+    field.value = type === 'name' ? (collected.name || '') : (collected.school || '');
+    tip.textContent = type === 'name' ? '来叭～上贡你的名字叭～🖤' : '来叭～告诉小妲你的学校叭～🖤';
+    field.placeholder = type === 'name' ? '输入你的名字…' : '输入你的学校…';
+    field.dataset.type = type;
+    ov.classList.add('show');
+    setTimeout(function(){ field.focus(); }, 100);
+  }
+
+  function openUpload(nextId, btn) {
+    pendingNext = nextId;
+    pendingBtn = btn;
+    const ov = document.getElementById('uploadOverlay');
+    const err = document.getElementById('uploadErr');
+    const field = document.getElementById('uploadField');
+    const preview = document.getElementById('uploadPreview');
+    err.textContent = '';
+    field.value = '';
+    preview.classList.remove('show');
+    preview.removeAttribute('src');
+    ov.classList.add('show');
+  }
+
+  function runCountdown(sec, nextId, btn) {
+    const ov = document.getElementById('countdownOverlay');
+    const num = document.getElementById('countdownNum');
+    const msg = document.getElementById('countdownMsg');
+    msg.textContent = '不过只有10秒钟时间呢～🖤';
+    msg.style.display = 'block';
+    num.style.display = 'none';
+    ov.classList.add('show');
+
+    // first show message ~1.4s, then countdown
+    setTimeout(function(){
+      msg.style.display = 'none';
+      num.style.display = 'block';
+      let n = sec;
+      num.textContent = String(n);
+      // restart animation
+      num.style.animation = 'none';
+      void num.offsetWidth;
+      num.style.animation = 'cdPulse 1s ease-in-out';
+
+      const timer = setInterval(function(){
+        n -= 1;
+        if (n <= 0) {
+          clearInterval(timer);
+          num.textContent = '0';
+          num.style.animation = 'none';
+          void num.offsetWidth;
+          num.style.animation = 'cdPulse 0.6s ease-in-out';
+          setTimeout(function(){
+            num.style.display = 'none';
+            msg.textContent = '射叭～傻逼🖕🏻';
+            msg.style.display = 'block';
+            msg.style.fontSize = '1.4rem';
+            setTimeout(function(){
+              ov.classList.remove('show');
+              msg.style.fontSize = '';
+              if (btn && !btn.dataset.recorded) {
+                try {
+                  recordAnswer(getCurrentChapter(), btn.textContent.trim().replace(/\s+/g, ' '));
+                  btn.dataset.recorded = '1';
+                } catch(e){}
+              }
+              if (nextId && typeof go === 'function') go(nextId);
+            }, 1600);
+          }, 700);
+          return;
+        }
+        num.textContent = String(n);
+        num.style.animation = 'none';
+        void num.offsetWidth;
+        num.style.animation = 'cdPulse 1s ease-in-out';
+      }, 1000);
+    }, 1400);
+  }
+
+  document.getElementById('btnInputOk').addEventListener('click', function(){
+    const field = document.getElementById('inputField');
+    const err = document.getElementById('inputErr');
+    const type = field.dataset.type;
+    const val = (field.value || '').trim();
+    if (!val) {
+      err.textContent = type === 'name' ? '名字不能为空哦～' : '学校不能为空哦～';
+      return;
+    }
+    if (type === 'name') collected.name = val;
+    else collected.school = val;
+    err.textContent = '';
+    document.getElementById('inputOverlay').classList.remove('show');
+    if (pendingBtn && !pendingBtn.dataset.recorded) {
+      try {
+        recordAnswer(getCurrentChapter(), (type === 'name' ? '名字:' : '学校:') + val);
+        pendingBtn.dataset.recorded = '1';
+      } catch(e){}
+    }
+    const next = pendingNext;
+    pendingNext = null;
+    pendingBtn = null;
+    if (next && typeof go === 'function') go(next);
+  });
+
+  document.getElementById('inputField').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('btnInputOk').click();
+    }
+  });
+
+  document.getElementById('uploadField').addEventListener('change', function(){
+    const file = this.files && this.files[0];
+    const preview = document.getElementById('uploadPreview');
+    const err = document.getElementById('uploadErr');
+    err.textContent = '';
+    if (!file) {
+      preview.classList.remove('show');
+      return;
+    }
+    if (!file.type.startsWith('image/')) {
+      err.textContent = '请选择图片文件～';
+      preview.classList.remove('show');
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    preview.src = url;
+    preview.classList.add('show');
+    collected.photoName = file.name || 'photo';
+  });
+
+  document.getElementById('btnUploadOk').addEventListener('click', function(){
+    const field = document.getElementById('uploadField');
+    const err = document.getElementById('uploadErr');
+    if (!field.files || !field.files[0]) {
+      err.textContent = '还没有选择照片哦～';
+      return;
+    }
+    err.textContent = '';
+    document.getElementById('uploadOverlay').classList.remove('show');
+    if (pendingBtn && !pendingBtn.dataset.recorded) {
+      try {
+        recordAnswer(getCurrentChapter(), '已上传照片:' + (collected.photoName || 'photo'));
+        pendingBtn.dataset.recorded = '1';
+      } catch(e){}
+    }
+    const next = pendingNext;
+    pendingNext = null;
+    pendingBtn = null;
+    if (next && typeof go === 'function') go(next);
+  });
+
+  // intercept choice clicks for special attributes (capture phase, before original)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.choice');
+    if (!btn) return;
+
+    const inputType = btn.getAttribute('data-input');
+    const uploadType = btn.getAttribute('data-upload');
+    const countdown = btn.getAttribute('data-countdown');
+    const next = btn.getAttribute('data-next');
+
+    if (inputType) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      const scene = btn.closest('.scene');
+      if (scene) {
+        scene.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+      openInput(inputType, next, btn);
+      return;
+    }
+    if (uploadType) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      const scene = btn.closest('.scene');
+      if (scene) {
+        scene.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+      openUpload(next, btn);
+      return;
+    }
+    if (countdown) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      const scene = btn.closest('.scene');
+      if (scene) {
+        scene.querySelectorAll('.choice').forEach(c => c.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+      runCountdown(parseInt(countdown, 10) || 10, next, btn);
+      return;
+    }
+  }, true);
+})();
+</script>
+
+</body>
+</html>
